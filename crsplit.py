@@ -13,8 +13,9 @@ def process(fps, path):
     while success:
         #fps dictates the number of frames generated per each second
         if (count % fps  == 0):
+            frameNum = count / 30
             #we write to the image file to the specified path as a PNG
-            cv2.imwrite(os.path.join(path,"frame-%d.png" % count), image) 
+            cv2.imwrite(os.path.join(path,"frame-%d.png" % frameNum), image) 
         success,image = vidcap.read()
         count += 1
 
@@ -39,6 +40,9 @@ def run():
         exit()
     fps = input('Enter video FPS: ')
     fps = 30 / 1
+    subs = input('Enable Subtitles: ')
+    if subs == 'yes':
+        ydl_opts['format'] = 'bestvideo[format_id*=hardsub-en]'
     print('Initializing Download. Hang tight, this will take a while!')
     #utilize youtube_dl to download as MP4
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
